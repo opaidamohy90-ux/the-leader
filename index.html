@@ -8896,7 +8896,8 @@
             el.style.display = 'block';
         }
 
-        function friendlyAuthError(code) {
+        function friendlyAuthError(err) {
+            const code = (err && err.code) || '';
             const map = {
                 'auth/invalid-email': 'البريد الإلكتروني غير صحيح',
                 'auth/user-not-found': 'مفيش حساب بهذا البريد',
@@ -8904,9 +8905,16 @@
                 'auth/email-already-in-use': 'البريد الإلكتروني مستخدم بالفعل',
                 'auth/weak-password': 'كلمة المرور لازم تكون 6 أحرف على الأقل',
                 'auth/invalid-credential': 'بيانات الدخول غير صحيحة',
-                'auth/too-many-requests': 'محاولات كتير، حاول تاني بعد شوية'
+                'auth/too-many-requests': 'محاولات كتير، حاول تاني بعد شوية',
+                'auth/unauthorized-domain': 'الدومين ده مش مسموح له بتسجيل الدخول (راجع Authorized domains في فيربيز)',
+                'auth/network-request-failed': 'مشكلة في الاتصال بالإنترنت، حاول تاني',
+                'permission-denied': 'الصلاحيات (Firestore Rules) مش مظبوطة صح',
+                'unavailable': 'الخدمة مش متاحة دلوقتي، حاول تاني'
             };
-            return map[code] || 'حصل خطأ، حاول تاني';
+            const friendly = map[code];
+            console.error('Auth/Firestore error:', code, (err && err.message) || err);
+            if (friendly) return friendly + ` (${code})`;
+            return 'حصل خطأ: ' + (code || (err && err.message) || 'غير معروف');
         }
 
         window.submitAuthForm = async function() {
@@ -8933,7 +8941,7 @@
                 }
                 closeAuthModal();
             } catch (e) {
-                showAuthError(friendlyAuthError(e.code));
+                showAuthError(friendlyAuthError(e));
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.textContent = originalText;
@@ -8954,7 +8962,7 @@
                 await ensureStudentDoc(cred.user, cred.user.displayName || '');
                 closeAuthModal();
             } catch (e) {
-                showAuthError(friendlyAuthError(e.code));
+                showAuthError(friendlyAuthError(e));
             }
         };
 
