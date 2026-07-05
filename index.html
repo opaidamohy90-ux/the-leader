@@ -4077,6 +4077,70 @@
             .lt-topbar { padding: .9rem 1.2rem; }
             .lt-name-fields { grid-template-columns: 1fr; }
         }
+
+        /* ===== Auth Modal (redesigned) ===== */
+        .auth-card {
+            background: linear-gradient(160deg, rgba(26,0,64,0.97), rgba(42,0,96,0.97));
+            border: 1px solid rgba(199,125,255,0.3);
+            border-radius: 24px;
+            width: 100%; max-width: 430px; max-height: 92vh; overflow-y: auto;
+            padding: 2.1rem 1.8rem 1.8rem;
+            position: relative;
+            box-shadow: 0 0 0 1px rgba(199,125,255,0.08), 0 25px 70px rgba(0,0,0,0.55), 0 0 90px rgba(123,44,191,0.25);
+            animation: authPop .35s cubic-bezier(.2,.9,.3,1.2);
+        }
+        @keyframes authPop { from { opacity:0; transform: translateY(14px) scale(.97);} to { opacity:1; transform: translateY(0) scale(1);} }
+        .auth-close {
+            position: absolute; top: .9rem; left: .9rem; width: 34px; height: 34px; border-radius: 50%;
+            background: rgba(255,255,255,0.06); border: 1px solid rgba(199,125,255,0.25); color: #E0AAFF;
+            cursor: pointer; font-size: .95rem; transition: all .2s; display:flex;align-items:center;justify-content:center;
+        }
+        .auth-close:hover { background: rgba(234,97,19,0.28); border-color: rgba(234,97,19,0.5); transform: rotate(90deg); }
+        .auth-crest { width: 54px; height: 54px; margin: 0 auto .7rem; display:flex;align-items:center;justify-content:center;
+            border-radius: 16px; background: linear-gradient(135deg, rgba(123,44,191,0.35), rgba(234,97,19,0.25));
+            border: 1px solid rgba(199,125,255,0.35); font-size: 1.6rem; }
+        .auth-title { text-align:center; font-size:1.35rem; font-weight:900;
+            background: linear-gradient(135deg,#C77DFF,#EA6113); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:.3rem; }
+        .auth-sub { text-align:center; color:#a9a3c2; font-size:.83rem; line-height:1.6; margin-bottom:1.4rem; }
+        .auth-tabs { position:relative; display:flex; background: rgba(255,255,255,0.05); border-radius:13px; padding:.3rem; margin-bottom:1.3rem; }
+        .auth-tab-indicator { position:absolute; top:.3rem; bottom:.3rem; width:calc(50% - .3rem); border-radius:10px;
+            background: linear-gradient(135deg,#7B2CBF,#EA6113); transition: transform .3s cubic-bezier(.4,0,.2,1); z-index:0; }
+        .auth-tab { position:relative; z-index:1; flex:1; padding:.65rem; border:none; background:transparent; cursor:pointer;
+            font-family:inherit; font-weight:700; font-size:.9rem; color:#a9a3c2; transition: color .25s; }
+        .auth-tab.active { color:#fff; }
+        .auth-field { position: relative; margin-bottom: .9rem; }
+        .auth-field-icon { position:absolute; top:50%; transform:translateY(-50%); right:1rem; width:18px; height:18px; color:#9d7fc4; pointer-events:none; }
+        .auth-input {
+            width:100%; box-sizing:border-box; background: rgba(255,255,255,0.05); border: 1.5px solid rgba(199,125,255,0.2);
+            border-radius: 12px; padding: .85rem 2.8rem .85rem 1rem; color:#F3F4F6; font-family:inherit; font-size:.92rem;
+            outline:none; transition: border-color .2s, background .2s, box-shadow .2s;
+        }
+        .auth-input::placeholder { color:#7a7590; }
+        .auth-input:focus { border-color: rgba(199,125,255,0.7); background: rgba(255,255,255,0.08); box-shadow: 0 0 0 4px rgba(123,44,191,0.15); }
+        .auth-toggle-pw { position:absolute; top:50%; transform:translateY(-50%); left:.9rem; background:none; border:none; color:#9d7fc4; cursor:pointer; padding:.2rem; display:flex; }
+        .auth-toggle-pw:hover { color:#E0AAFF; }
+        .auth-error { display:none; background: rgba(255,80,80,0.1); border: 1px solid rgba(255,80,80,0.3); color:#ff9b9b;
+            font-size:.82rem; text-align:center; border-radius:10px; padding:.55rem; margin-bottom:.9rem; }
+        .auth-submit {
+            width:100%; background: linear-gradient(135deg,#7B2CBF,#EA6113); border:none; border-radius:12px; padding:.85rem;
+            color:#fff; font-family:inherit; font-weight:800; font-size:1rem; cursor:pointer; margin-bottom:1rem;
+            transition: transform .15s, box-shadow .2s; box-shadow: 0 8px 24px rgba(123,44,191,0.35);
+        }
+        .auth-submit:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(234,97,19,0.4); }
+        .auth-submit:active { transform: translateY(0); }
+        .auth-submit:disabled { opacity:.65; cursor:not-allowed; transform:none; }
+        .auth-divider { display:flex; align-items:center; gap:.7rem; margin-bottom:1rem; }
+        .auth-divider-line { flex:1; height:1px; background: rgba(255,255,255,0.12); }
+        .auth-divider-txt { color:#7a7590; font-size:.76rem; }
+        .auth-google {
+            width:100%; background:#fff; border:none; border-radius:12px; padding:.8rem; color:#2b2b33;
+            font-family:inherit; font-weight:700; font-size:.9rem; cursor:pointer; display:flex; align-items:center;
+            justify-content:center; gap:.6rem; transition: transform .15s, box-shadow .2s;
+        }
+        .auth-google:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(0,0,0,0.25); }
+        .auth-hint { text-align:center; color:#a9a3c2; font-size:.82rem; margin-top:1.1rem; }
+        .auth-hint a { color:#EA6113; font-weight:700; text-decoration:none; }
+        .auth-hint a:hover { text-decoration:underline; }
     </style>
     <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
@@ -4913,44 +4977,52 @@
     </footer>
 
     <!-- ===== AUTH MODAL (Login / Signup) ===== -->
-    <div id="authOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(8px);z-index:10500;align-items:center;justify-content:center;padding:1rem;">
-        <div style="background:linear-gradient(135deg,#1a0040,#2a0060);border:1px solid rgba(199,125,255,0.35);border-radius:20px;width:100%;max-width:420px;max-height:92vh;overflow-y:auto;padding:1.8rem 1.6rem;box-shadow:0 0 60px rgba(123,44,191,0.4);position:relative;">
-            <button onclick="closeAuthModal()" style="position:absolute;top:1rem;left:1rem;background:rgba(199,125,255,0.15);border:1px solid rgba(199,125,255,0.3);color:#E0AAFF;border-radius:50%;width:32px;height:32px;font-size:.9rem;cursor:pointer;">✕</button>
+    <div id="authOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.78);backdrop-filter:blur(10px);z-index:10500;align-items:center;justify-content:center;padding:1rem;">
+        <div class="auth-card">
+            <button class="auth-close" onclick="closeAuthModal()">✕</button>
 
-            <div style="text-align:center;font-size:1.4rem;font-weight:900;background:linear-gradient(135deg,#C77DFF,#EA6113);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:.3rem;">👑 The Leader</div>
-            <div style="text-align:center;color:#9d9db5;font-size:.85rem;margin-bottom:1.2rem;">سجّل دخولك أو اعمل حساب جديد عشان تفتح الاختبارات والحجز وتتابع نقاطك</div>
+            <div class="auth-crest">👑</div>
+            <div class="auth-title">The Leader</div>
+            <div class="auth-sub">سجّل دخولك أو اعمل حساب جديد عشان تفتح الاختبارات والحجز وتتابع نقاطك</div>
 
-            <div style="display:flex;gap:.5rem;margin-bottom:1.2rem;background:rgba(255,255,255,0.04);border-radius:12px;padding:.3rem;">
-                <button id="authTabLogin" onclick="switchAuthTab('login')" style="flex:1;padding:.6rem;border-radius:9px;border:none;background:linear-gradient(135deg,#7B2CBF,#EA6113);color:#fff;font-family:inherit;font-weight:700;cursor:pointer;font-size:.9rem;">دخول</button>
-                <button id="authTabSignup" onclick="switchAuthTab('signup')" style="flex:1;padding:.6rem;border-radius:9px;border:none;background:transparent;color:#9d9db5;font-family:inherit;font-weight:700;cursor:pointer;font-size:.9rem;">حساب جديد</button>
+            <div class="auth-tabs">
+                <div class="auth-tab-indicator" id="authTabIndicator"></div>
+                <button class="auth-tab active" id="authTabLogin" onclick="switchAuthTab('login')">دخول</button>
+                <button class="auth-tab" id="authTabSignup" onclick="switchAuthTab('signup')">حساب جديد</button>
             </div>
 
-            <div id="authNameField" style="display:none;margin-bottom:.7rem;">
-                <input id="authName" placeholder="الاسم بالكامل" style="width:100%;background:rgba(255,255,255,0.06);border:1px solid rgba(199,125,255,0.25);border-radius:10px;padding:.7rem 1rem;color:#F3F4F6;font-family:inherit;font-size:.92rem;outline:none;box-sizing:border-box;">
+            <div id="authNameField" class="auth-field" style="display:none;">
+                <input id="authName" class="auth-input" placeholder="الاسم بالكامل">
+                <svg class="auth-field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
             </div>
-            <div style="margin-bottom:.7rem;">
-                <input id="authEmail" type="email" placeholder="البريد الإلكتروني" dir="ltr" style="width:100%;background:rgba(255,255,255,0.06);border:1px solid rgba(199,125,255,0.25);border-radius:10px;padding:.7rem 1rem;color:#F3F4F6;font-family:inherit;font-size:.92rem;outline:none;box-sizing:border-box;">
+            <div class="auth-field">
+                <input id="authEmail" type="email" class="auth-input" placeholder="البريد الإلكتروني" dir="ltr">
+                <svg class="auth-field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z" opacity="0"/><path d="M22 6l-10 7L2 6"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg>
             </div>
-            <div style="margin-bottom:.9rem;">
-                <input id="authPassword" type="password" placeholder="كلمة المرور" dir="ltr" style="width:100%;background:rgba(255,255,255,0.06);border:1px solid rgba(199,125,255,0.25);border-radius:10px;padding:.7rem 1rem;color:#F3F4F6;font-family:inherit;font-size:.92rem;outline:none;box-sizing:border-box;">
-            </div>
-
-            <div id="authError" style="display:none;color:#ff8c8c;font-size:.82rem;text-align:center;margin-bottom:.7rem;"></div>
-
-            <button id="authSubmitBtn" onclick="submitAuthForm()" style="width:100%;background:linear-gradient(135deg,#7B2CBF,#EA6113);border:none;border-radius:10px;padding:.8rem;color:#fff;font-family:inherit;font-weight:800;font-size:1rem;cursor:pointer;margin-bottom:.8rem;">دخول</button>
-
-            <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.8rem;">
-                <div style="flex:1;height:1px;background:rgba(255,255,255,0.15);"></div>
-                <span style="color:#9d9db5;font-size:.78rem;">أو</span>
-                <div style="flex:1;height:1px;background:rgba(255,255,255,0.15);"></div>
+            <div class="auth-field">
+                <input id="authPassword" type="password" class="auth-input" placeholder="كلمة المرور" dir="ltr" style="padding-left:2.6rem;">
+                <svg class="auth-field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                <button type="button" class="auth-toggle-pw" onclick="toggleAuthPasswordVisibility()" id="authPwToggleBtn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
             </div>
 
-            <button onclick="googleAuth()" style="width:100%;background:#fff;border:none;border-radius:10px;padding:.75rem;color:#222;font-family:inherit;font-weight:700;font-size:.92rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.6rem;">
+            <div id="authError" class="auth-error"></div>
+
+            <button id="authSubmitBtn" class="auth-submit" onclick="submitAuthForm()">دخول</button>
+
+            <div class="auth-divider">
+                <div class="auth-divider-line"></div>
+                <span class="auth-divider-txt">أو</span>
+                <div class="auth-divider-line"></div>
+            </div>
+
+            <button class="auth-google" onclick="googleAuth()">
                 <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.9 32.6 29.4 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 3l6-6C34.5 5.5 29.5 3.5 24 3.5 12.7 3.5 3.5 12.7 3.5 24S12.7 44.5 24 44.5 44.5 35.3 44.5 24c0-1.2-.1-2.4-.9-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 15.6 18.9 13 24 13c3 0 5.8 1.1 7.9 3l6-6C34.5 5.5 29.5 3.5 24 3.5c-7.8 0-14.5 4.4-17.7 11.2z"/><path fill="#4CAF50" d="M24 44.5c5.4 0 10.3-1.9 14-5.1l-6.5-5.5c-2 1.4-4.6 2.2-7.5 2.2-5.4 0-9.9-3.4-11.4-8.1l-6.6 5C9.4 40 16.1 44.5 24 44.5z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.3 4.3-4.2 5.7l6.5 5.5C41.5 36.1 44.5 30.6 44.5 24c0-1.2-.1-2.4-.9-3.5z"/></svg>
                 الدخول بحساب Google
             </button>
 
-            <div id="authSwitchHint" style="text-align:center;color:#9d9db5;font-size:.82rem;margin-top:1rem;">لسه معملتش حساب؟ <a href="#" onclick="switchAuthTab('signup');return false;" style="color:#EA6113;font-weight:700;">اعمل حساب جديد</a></div>
+            <div id="authSwitchHint" class="auth-hint">لسه معملتش حساب؟ <a href="#" onclick="switchAuthTab('signup');return false;">اعمل حساب جديد</a></div>
         </div>
     </div>
 
@@ -8784,26 +8856,37 @@
             authMode = mode;
             const loginTab = document.getElementById('authTabLogin');
             const signupTab = document.getElementById('authTabSignup');
+            const indicator = document.getElementById('authTabIndicator');
             const nameField = document.getElementById('authNameField');
             const submitBtn = document.getElementById('authSubmitBtn');
             const hint = document.getElementById('authSwitchHint');
             document.getElementById('authError').style.display = 'none';
             if (mode === 'signup') {
-                signupTab.style.background = 'linear-gradient(135deg,#7B2CBF,#EA6113)';
-                signupTab.style.color = '#fff';
-                loginTab.style.background = 'transparent';
-                loginTab.style.color = '#9d9db5';
+                signupTab.classList.add('active');
+                loginTab.classList.remove('active');
+                indicator.style.transform = 'translateX(-100%)';
                 nameField.style.display = 'block';
                 submitBtn.textContent = 'إنشاء الحساب';
-                hint.innerHTML = 'عندك حساب بالفعل؟ <a href="#" onclick="switchAuthTab(\'login\');return false;" style="color:#EA6113;font-weight:700;">سجّل دخولك</a>';
+                hint.innerHTML = 'عندك حساب بالفعل؟ <a href="#" onclick="switchAuthTab(\'login\');return false;">سجّل دخولك</a>';
             } else {
-                loginTab.style.background = 'linear-gradient(135deg,#7B2CBF,#EA6113)';
-                loginTab.style.color = '#fff';
-                signupTab.style.background = 'transparent';
-                signupTab.style.color = '#9d9db5';
+                loginTab.classList.add('active');
+                signupTab.classList.remove('active');
+                indicator.style.transform = 'translateX(0)';
                 nameField.style.display = 'none';
                 submitBtn.textContent = 'دخول';
-                hint.innerHTML = 'لسه معملتش حساب؟ <a href="#" onclick="switchAuthTab(\'signup\');return false;" style="color:#EA6113;font-weight:700;">اعمل حساب جديد</a>';
+                hint.innerHTML = 'لسه معملتش حساب؟ <a href="#" onclick="switchAuthTab(\'signup\');return false;">اعمل حساب جديد</a>';
+            }
+        };
+
+        window.toggleAuthPasswordVisibility = function() {
+            const input = document.getElementById('authPassword');
+            const btn = document.getElementById('authPwToggleBtn');
+            if (input.type === 'password') {
+                input.type = 'text';
+                btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a18.6 18.6 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>';
+            } else {
+                input.type = 'password';
+                btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>';
             }
         };
 
@@ -8830,10 +8913,15 @@
             const email = document.getElementById('authEmail').value.trim();
             const password = document.getElementById('authPassword').value;
             const name = document.getElementById('authName').value.trim();
+            const submitBtn = document.getElementById('authSubmitBtn');
             document.getElementById('authError').style.display = 'none';
 
             if (!email || !password) { showAuthError('من فضلك املأ البريد وكلمة المرور'); return; }
             if (authMode === 'signup' && !name) { showAuthError('من فضلك اكتب اسمك بالكامل'); return; }
+
+            const originalText = submitBtn.textContent;
+            submitBtn.disabled = true;
+            submitBtn.textContent = '⏳ جاري التحميل...';
 
             try {
                 if (authMode === 'signup') {
@@ -8846,8 +8934,18 @@
                 closeAuthModal();
             } catch (e) {
                 showAuthError(friendlyAuthError(e.code));
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalText;
             }
         };
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                const overlay = document.getElementById('authOverlay');
+                if (overlay && overlay.style.display === 'flex') submitAuthForm();
+            }
+        });
 
         window.googleAuth = async function() {
             try {
