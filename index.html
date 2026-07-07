@@ -2779,11 +2779,11 @@
         }
         #ltOverlay .lt-overlay-close:hover { background: rgba(199,125,255,0.25); transform: scale(1.1); }
         #ltOverlay #lt-wrapper {
-            max-width: 860px; width: 100%; margin: 2rem auto; flex: 1;
+            max-width: 860px; width: 100%; margin: 2rem auto; flex-shrink: 0;
             border-radius: 28px; background: rgba(16,0,43,0.6);
             border: 1px solid rgba(199,125,255,0.18);
             box-shadow: 0 0 80px rgba(199,125,255,.08);
-            overflow: hidden; position: relative;
+            overflow: visible; position: relative;
         }
 
         /* ===== LEVEL TEST TRIGGER CARD ===== */
@@ -5147,7 +5147,7 @@
             <div>
                 <div class="footer-col-title" id="footerColLinks">روابط سريعة</div>
                 <div class="footer-links" id="footerLinksList">
-                    <a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;" data-fkey="home">الرئيسية</a>
+                    <a href="#" onclick="smoothScrollTo(0);return false;" data-fkey="home">الرئيسية</a>
                     <a href="#about" data-fkey="about">من أنا</a>
                     <a href="#courses" data-fkey="courses">ابدأ رحلتك</a>
                     <a href="#quiz-section" data-fkey="quiz">🎮 تحدي نفسك</a>
@@ -5723,10 +5723,54 @@
 
         document.querySelectorAll('.slide-left, .slide-right, .slide-up, .section-title').forEach(el => scrollObs.observe(el));
 
+        // ===== CUSTOM SMOOTH SCROLL (eased, non-native) — site-wide, excludes modals/overlays =====
+        (function() {
+            const isExcluded = (el) => !!(el && el.closest && el.closest('[id$="Overlay"], .modal-overlay'));
+            let targetY = window.scrollY;
+            let currentY = window.scrollY;
+            let rafId = null;
+            const EASE = 0.09;
+
+            function maxScroll() {
+                return Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+            }
+            function clamp() { targetY = Math.max(0, Math.min(targetY, maxScroll())); }
+
+            function loop() {
+                currentY += (targetY - currentY) * EASE;
+                if (Math.abs(targetY - currentY) < 0.4) currentY = targetY;
+                window.scrollTo(0, currentY);
+                if (currentY !== targetY) {
+                    rafId = requestAnimationFrame(loop);
+                } else {
+                    rafId = null;
+                }
+            }
+
+            window.addEventListener('wheel', function(e) {
+                if (isExcluded(e.target)) return;
+                e.preventDefault();
+                targetY += e.deltaY;
+                clamp();
+                if (!rafId) rafId = requestAnimationFrame(loop);
+            }, { passive: false });
+
+            window.addEventListener('scroll', function() {
+                if (!rafId) { targetY = window.scrollY; currentY = window.scrollY; }
+            }, { passive: true });
+
+            window.addEventListener('resize', clamp);
+
+            window.smoothScrollTo = function(y) {
+                targetY = Math.max(0, Math.min(y, maxScroll()));
+                if (!rafId) rafId = requestAnimationFrame(loop);
+            };
+        })();
+
         // ===== SCROLL TO TOP BUTTON =====
         const scrollTopBtn = document.getElementById('scrollTop');
         scrollTopBtn.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            smoothScrollTo(0);
             playSuccess();
         });
         scrollTopBtn.addEventListener('mouseenter', playHover);
@@ -5762,13 +5806,16 @@
                 if (!href || href === '#') return;
                 e.preventDefault();
                 const target = document.querySelector(href);
-                if (target) target.scrollIntoView({ behavior: 'smooth' });
+                if (target) {
+                    const y = target.getBoundingClientRect().top + window.scrollY - 70;
+                    smoothScrollTo(y);
+                }
             });
         });
 
         // ===== LOGO =====
         document.querySelector('.logo').addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            smoothScrollTo(0);
             playSuccess();
         });
 
@@ -6485,7 +6532,7 @@
 
         // Scroll to top on logo click
         document.querySelector('.logo').addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            smoothScrollTo(0);
         });
         // ===== BOOKING SECTION =====
         const gradeData = {
