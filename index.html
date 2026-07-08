@@ -4465,20 +4465,20 @@
             <div class="hero-stats">
                 <div>
                     <span class="hero-stat-num">98%</span>
-                    <span class="hero-stat-label">نسبة نجاح الطلبة</span>
+                    <span class="hero-stat-label">نسبة النجاح</span>
                 </div>
                 <div>
-                    <span class="hero-stat-num">+20</span>
+                    <span class="hero-stat-num">+10</span>
                     <span class="hero-stat-label">سنوات خبرة</span>
                 </div>
                 <div>
-                    <span class="hero-stat-num">+800</span>
-                    <span class="hero-stat-label">طالب مع الليدر</span>
+                    <span class="hero-stat-num">+500</span>
+                    <span class="hero-stat-label">طالب مستفيد</span>
                 </div>
             </div>
 
             <div class="cta-buttons">
-                <a href="#courses" class="btn btn-primary ripple-btn">🎓 اختار مرحلتك</a>
+                <a href="#courses" class="btn btn-primary ripple-btn">🎓 شوف الكورسات</a>
                 <a href="#contact" class="btn btn-secondary ripple-btn">📞 تواصل معايا</a>
             </div>
         </div>
@@ -5154,7 +5154,7 @@
                     <a href="#testimonials" data-fkey="reviews">بعض الآراء</a>
                     <a href="#contact" data-fkey="register">سجل الآن</a>
                     <a href="#contact" data-fkey="contact">تواصل معنا</a>
-                    <a href="https://www.facebook.com/share/18gBAPGqKm/" target="_blank" data-fkey="dev">معلومات عن المطور</a>
+                    <a href="#" id="devTeamLink" data-fkey="dev">معلومات عن المطور</a>
                 </div>
             </div>
 
@@ -7422,6 +7422,48 @@
             if (link) link.addEventListener('click', function(e) { e.preventDefault(); openPrivacy(); });
         })();
 
+        // ===== ABOUT THE DEVELOPER / TEAM =====
+        (function() {
+            const DEV_TEAM = [
+                { initial: 'ع', name: 'عبيدة محي', role: '🎨 مصمم ومطوّر Full-Stack', bio: 'المسؤول عن تصميم وبرمجة ما يزيد عن 90% من المنصة، من الواجهات والهوية البصرية حتى التكامل التقني الكامل.' },
+                { initial: 'ع', name: 'عمرو مصطفى عبده', role: '⚙️ مطوّر Back-End', bio: 'من قام بتأسيس نظام الشات والحجوزات وكل ما يتعلق بالبنية التحتية والخوادم.' }
+            ];
+
+            function renderDevTeamGrid() {
+                const grid = document.getElementById('devTeamGrid');
+                if (!grid || grid.children.length) return;
+                grid.innerHTML = DEV_TEAM.map(m => `
+                    <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(199,125,255,0.18);border-radius:16px;padding:1.2rem;text-align:center;transition:border-color .2s;">
+                        <div style="width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,#7B2CBF,#EA6113);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1.3rem;color:#fff;margin:0 auto .7rem;">${m.initial}</div>
+                        <div style="font-weight:800;color:#F3F4F6;font-size:.95rem;">${m.name}</div>
+                        <div style="font-size:.78rem;color:#C77DFF;font-weight:700;margin-top:.2rem;">${m.role}</div>
+                        <div style="font-size:.76rem;color:#9d9db5;margin-top:.5rem;line-height:1.6;">${m.bio}</div>
+                    </div>
+                `).join('');
+            }
+
+            window.openDevTeam = function() {
+                renderDevTeamGrid();
+                const el = document.getElementById('devTeamOverlay');
+                el.style.display = 'flex';
+                requestAnimationFrame(() => { el.style.opacity = '1'; });
+                document.body.style.overflow = 'hidden';
+                if (typeof playSuccess === 'function') playSuccess();
+            };
+
+            window.closeDevTeam = function() {
+                const el = document.getElementById('devTeamOverlay');
+                el.style.opacity = '0';
+                setTimeout(() => { el.style.display = 'none'; }, 300);
+                document.body.style.overflow = '';
+                if (typeof playClick === 'function') playClick();
+            };
+
+            // Bind link
+            const devLink = document.getElementById('devTeamLink');
+            if (devLink) devLink.addEventListener('click', function(e) { e.preventDefault(); openDevTeam(); });
+        })();
+
         // ===== TERMS & CONDITIONS =====
         (function() {
             const sections = [
@@ -8519,6 +8561,101 @@
         </div>
     </div>
 
+    <!-- ===== ABOUT THE DEVELOPER / TEAM OVERLAY ===== -->
+    <div id="devTeamOverlay" style="display:none;position:fixed;inset:0;background:linear-gradient(135deg,#10002B,#1a0040);z-index:7000;flex-direction:column;opacity:0;transition:opacity .3s;">
+
+        <!-- Top bar -->
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:1rem 1.5rem;background:rgba(6,0,18,0.97);backdrop-filter:blur(10px);border-bottom:1px solid rgba(199,125,255,0.15);position:sticky;top:0;z-index:1;flex-shrink:0;">
+            <div style="display:flex;align-items:center;gap:.7rem;">
+                <div style="font-size:1.4rem;">👨‍💻</div>
+                <div>
+                    <div style="font-size:1rem;font-weight:900;background:linear-gradient(135deg,#C77DFF,#EA6113);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">فريق العمل — معلومات عن المطور</div>
+                    <div style="font-size:.72rem;color:#9d9db5;margin-top:.1rem;">The Leader — محمد فتحي</div>
+                </div>
+            </div>
+            <button onclick="closeDevTeam()"
+                style="background:rgba(199,125,255,0.1);border:1px solid rgba(199,125,255,0.25);color:#E0AAFF;border-radius:50%;width:38px;height:38px;font-size:1.1rem;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;"
+                onmouseenter="this.style.background='rgba(234,97,19,0.25)'" onmouseleave="this.style.background='rgba(199,125,255,0.1)'">✕</button>
+        </div>
+
+        <!-- Content -->
+        <div style="flex:1;overflow-y:auto;padding:2rem 1.5rem 4rem;max-width:900px;width:100%;margin:0 auto;">
+
+            <!-- Badge -->
+            <div style="display:inline-flex;align-items:center;gap:.4rem;background:rgba(199,125,255,0.1);border:1px solid rgba(199,125,255,0.2);border-radius:20px;padding:.3rem .9rem;font-size:.78rem;color:#C77DFF;margin-bottom:2rem;">
+                🛠️ صُنع بشغف بواسطة استوديو Creatix
+            </div>
+
+            <!-- Intro -->
+            <div style="background:rgba(123,44,191,0.12);border:1px solid rgba(199,125,255,0.2);border-radius:16px;padding:1.2rem 1.4rem;margin-bottom:2rem;border-right:3px solid #C77DFF;">
+                <p style="color:#D1D5DB;font-size:.9rem;line-height:1.8;margin:0;">منصة <strong style="color:#C77DFF;">The Leader</strong> من تصميم وتطوير فريق <strong style="color:#ffb37a;">Creatix Studio</strong>، فريق متخصص في بناء مواقع ومنصات تعليمية احترافية بأحدث التقنيات، بقيادة <strong style="color:#C77DFF;">عبيدة محي</strong>.</p>
+            </div>
+
+            <!-- Lead card -->
+            <div style="background:linear-gradient(135deg,rgba(123,44,191,0.22),rgba(234,97,19,0.12));border:1px solid rgba(199,125,255,0.3);border-radius:20px;padding:1.8rem;margin-bottom:1.8rem;display:flex;align-items:center;gap:1.3rem;flex-wrap:wrap;">
+                <div style="width:76px;height:76px;border-radius:50%;background:linear-gradient(135deg,#7B2CBF,#EA6113);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1.9rem;color:#fff;flex-shrink:0;box-shadow:0 8px 24px rgba(123,44,191,0.4);">ع</div>
+                <div style="flex:1;min-width:200px;">
+                    <div style="font-size:1.25rem;font-weight:900;color:#fff;display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;">عبيدة محي <span style="font-size:.68rem;font-weight:800;background:rgba(234,97,19,0.25);border:1px solid rgba(234,97,19,0.5);color:#ffb37a;border-radius:20px;padding:.2rem .6rem;">👑 مؤسس ومدير الفريق</span></div>
+                    <div style="font-size:.85rem;color:#c9bde3;margin-top:.3rem;">مصمم جرافيك ومطوّر ويب Full-Stack، ومؤسس استوديو Creatix. يقود فريق العمل ويشرف على التصميم والتطوير والتكامل التقني لكل مشاريع الاستوديو.</div>
+                    <div style="display:flex;gap:.6rem;margin-top:.8rem;flex-wrap:wrap;">
+                        <a href="https://www.facebook.com/DeOPAIDA8" target="_blank" style="display:inline-flex;align-items:center;gap:.4rem;background:rgba(59,130,246,0.15);border:1px solid rgba(59,130,246,0.3);color:#60a5fa;border-radius:10px;padding:.4rem .8rem;font-size:.78rem;font-weight:700;text-decoration:none;">📘 فيسبوك</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Team grid -->
+            <div style="font-size:1rem;font-weight:800;color:#E0AAFF;margin-bottom:1rem;">🧩 أعضاء الفريق</div>
+            <div id="devTeamGrid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin-bottom:2rem;"></div>
+
+            <!-- Values -->
+            <div style="font-size:1rem;font-weight:800;color:#E0AAFF;margin-bottom:1rem;">✨ إيه اللي بيميزنا</div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-bottom:2rem;">
+                <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(199,125,255,0.18);border-radius:14px;padding:1.1rem;text-align:center;">
+                    <div style="font-size:1.6rem;margin-bottom:.4rem;">🎯</div>
+                    <div style="font-weight:800;color:#F3F4F6;font-size:.9rem;">تصميم مخصص 100%</div>
+                    <div style="font-size:.78rem;color:#9d9db5;margin-top:.3rem;">كل مشروع بيتصمم من الصفر حسب هوية العميل، مفيش قوالب جاهزة</div>
+                </div>
+                <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(199,125,255,0.18);border-radius:14px;padding:1.1rem;text-align:center;">
+                    <div style="font-size:1.6rem;margin-bottom:.4rem;">⚡</div>
+                    <div style="font-weight:800;color:#F3F4F6;font-size:.9rem;">أداء وسرعة</div>
+                    <div style="font-size:.78rem;color:#9d9db5;margin-top:.3rem;">مواقع خفيفة وسريعة التحميل على كل الأجهزة</div>
+                </div>
+                <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(199,125,255,0.18);border-radius:14px;padding:1.1rem;text-align:center;">
+                    <div style="font-size:1.6rem;margin-bottom:.4rem;">🤝</div>
+                    <div style="font-weight:800;color:#F3F4F6;font-size:.9rem;">دعم مستمر</div>
+                    <div style="font-size:.78rem;color:#9d9db5;margin-top:.3rem;">متابعة وتطوير مستمر للموقع بعد الإطلاق مباشرة</div>
+                </div>
+            </div>
+
+            <!-- Contact card -->
+            <div style="margin-top:1rem;background:linear-gradient(135deg,rgba(123,44,191,0.2),rgba(234,97,19,0.1));border:1px solid rgba(199,125,255,0.25);border-radius:16px;padding:1.4rem;">
+                <div style="font-size:1rem;font-weight:800;color:#E0AAFF;margin-bottom:.8rem;">📬 تواصل مع فريق العمل</div>
+                <p style="color:#D1D5DB;font-size:.88rem;line-height:1.7;margin:0 0 1rem;">لو عندك أي استفسار تقني عن المنصة أو حابب تعرف أكتر عن Creatix Studio:</p>
+                <div style="display:flex;flex-wrap:wrap;gap:.7rem;">
+                    <a href="https://wa.me/201223093974" target="_blank"
+                        style="display:inline-flex;align-items:center;gap:.5rem;background:rgba(37,211,102,0.15);border:1px solid rgba(37,211,102,0.3);color:#4ade80;border-radius:12px;padding:.55rem 1rem;font-size:.85rem;font-weight:700;text-decoration:none;transition:all .2s;"
+                        onmouseenter="this.style.background='rgba(37,211,102,0.25)'" onmouseleave="this.style.background='rgba(37,211,102,0.15)'">
+                        <span style="font-size:1.1rem;">💬</span> واتساب
+                    </a>
+                    <a href="https://www.facebook.com/profile.php?id=61582261975354" target="_blank"
+                        style="display:inline-flex;align-items:center;gap:.5rem;background:rgba(59,130,246,0.15);border:1px solid rgba(59,130,246,0.3);color:#60a5fa;border-radius:12px;padding:.55rem 1rem;font-size:.85rem;font-weight:700;text-decoration:none;transition:all .2s;"
+                        onmouseenter="this.style.background='rgba(59,130,246,0.25)'" onmouseleave="this.style.background='rgba(59,130,246,0.15)'">
+                        <span style="font-size:1.1rem;">📘</span> فيسبوك
+                    </a>
+                    <a href="https://creatixstudio1.github.io/" target="_blank"
+                        style="display:inline-flex;align-items:center;gap:.5rem;background:rgba(199,125,255,0.15);border:1px solid rgba(199,125,255,0.35);color:#E0AAFF;border-radius:12px;padding:.55rem 1rem;font-size:.85rem;font-weight:700;text-decoration:none;transition:all .2s;"
+                        onmouseenter="this.style.background='rgba(199,125,255,0.28)'" onmouseleave="this.style.background='rgba(199,125,255,0.15)'">
+                        <span style="font-size:1.1rem;">🌐</span> موقعنا
+                    </a>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div style="text-align:center;margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid rgba(199,125,255,0.1);">
+                <div style="font-size:.82rem;color:#9d9db5;">© 2026 استوديو <span style="color:#C77DFF;font-weight:700;">Creatix</span> — جميع الحقوق محفوظة</div>
+            </div>
+        </div>
+    </div>
 
     <!-- ===== LANGUAGE QUIZ OVERLAY ===== -->
     <div id="quizOverlay">
